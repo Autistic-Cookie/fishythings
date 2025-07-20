@@ -71,6 +71,10 @@ function fcmds
   echo "vz : locate and edit"
   echo "hx : fzf history"
   echo "edf : edit config.fish"
+  echu "fndir : locate and cd to directory"
+  echo "fndc : cd to directory from outdirs.txt"
+  echo "htz : locate and open html file"
+  
 end
 echo "Following directories are set :"
 echo  $FISHTEMPDIR $FISHHOMEDIR $FISHSCRIPTDIR 
