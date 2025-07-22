@@ -1,6 +1,12 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
+#create temp if its not here
+
+if not test -d temp
+  mkdir temp
+end
+
 
 set -g fish_read_limit 0
 set -g FISHHOMEDIR (dirname (status --current-filename))
@@ -36,8 +42,8 @@ alias fcd 'cd ~/.config/fish/'
 function fnw
   rm -f $FISHTEMPDIR/outpt.txt
   touch $FISHTEMPDIR/outpt.txt
-  set rhv = (locate / | grep $argv[1])
-  grep $argv[2] $rhv -sHn   >> $FISHTEMPDIR/outpt.txt & 
+  set rhv = (locate / | grep  $argv[1])
+  grep --binary-files=text -IsHn $argv[2] $rhv   >> $FISHTEMPDIR/outpt.txt & 
   set sfields (cat $FISHTEMPDIR/outpt.txt | fzf | string split -m2 ':')
   lvim +$sfields[2] $sfields[1]
 end
@@ -67,7 +73,7 @@ end
 function fcmds
   echo "sof source fish"
   echo "rels : fzf outpt.txt"
-  echo "fnw : create outpt.txt <-"
+  echo "fnw [partial filename] [pattern] : create outpt.txt ,fzf, and edit with editor"
   echo "vz : locate and edit"
   echo "hx : fzf history"
   echo "edf : edit config.fish"
@@ -79,3 +85,5 @@ end
 echo "Following directories are set :"
 echo  $FISHTEMPDIR $FISHHOMEDIR $FISHSCRIPTDIR 
 echo "fcmds for list of options"
+
+zoxide init fish | source
